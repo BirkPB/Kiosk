@@ -4,6 +4,50 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mcdonalds Order Submission</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  text-align: center;
+  color: #f00; /* Your brand color */
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #f00; /* Your brand color */
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #c00; /* Darker shade for hover */
+}
+</style>
 </head>
 <body>
 <h1>Order Submission</h1>
@@ -21,7 +65,16 @@
   <p>Total: <span id="total">0.00 kr.</span></p>
   <button id="submit-order">Submit Order</button>
 </div>
+<div class="container">
+  <h2>All Orders</h2>
+  <ul id="orders">
+    <!-- All orders will be dynamically populated here -->
+  </ul>
+</div>
+<script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js"></script>
 <script src="firebase-config.js"></script>
 <script src="order-submission.js"></script>
+<script src="display-orders.js"></script>
 </body>
 </html>
