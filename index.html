@@ -5,81 +5,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mcdonalds</title>
 <style>
-body {
-  font-family: 'Arial Black', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f7f7f7;
-}
+  body {
+    font-family: 'Arial Black', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+  }
 
-.container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+  .container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 
-h1, h2, h3 {
-  text-align: center;
-  color: #f00; /* Your brand color */
-}
+  header,
+  .menu,
+  .cart {
+    flex-basis: calc(33.33% - 10px);
+    margin-bottom: 20px;
+  }
 
-.menu {
-  float: left;
-  width: 50%;
-}
+  header h1 {
+    text-align: center;
+    color: #f00;
+    margin-bottom: 20px;
+  }
 
-.items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+  .menu h2,
+  .cart h2 {
+    text-align: center;
+    color: #f00;
+    margin-bottom: 10px;
+  }
 
-.item {
-  width: 45%;
-  margin: 10px;
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
-.item img {
-  width: 100%;
-  border-radius: 10px;
-}
+  .item {
+    width: calc(50% - 20px);
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
 
-.cart {
-  float: right;
-  width: 50%;
-}
+  .item img {
+    width: 100%;
+    border-radius: 10px;
+  }
 
-.cart p {
-  text-align: right;
-}
+  .cart p {
+    text-align: right;
+    margin-bottom: 10px;
+  }
 
-#submit-order {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  background-color: #f00; /* Your brand color */
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+  #submit-order {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
-#submit-order:hover {
-  background-color: #c00; /* Darker shade for hover */
-}
+  #submit-order:hover {
+    background-color: #c00;
+  }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>Velkommen til vores bestillingssystem</h1>
+  <header>
+    <h1>Velkommen til vores bestillingssystem</h1>
+  </header>
   <div class="menu">
     <h2>Menu</h2>
     <div class="items">
@@ -95,7 +106,7 @@ h1, h2, h3 {
         <p>39.00 kr.</p>
         <button class="add-to-cart" data-item="McChicken" data-price="39.00">Tilføj til kurv</button>
       </div>
-            <div class="item">
+      <div class="item">
         <img src="https://s7d1.scene7.com/is/image/mcdonalds/Nuggets_20pcs_832x822px:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="18 Nugs">
         <h3>CHICKEN MCNUGGETS® TEAM BOX - 18 STK</h3>
         <p>73.00 kr.</p>
