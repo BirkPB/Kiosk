@@ -95,7 +95,7 @@ h1, h2, h3 {
         <p>39.00 kr.</p>
         <button class="add-to-cart" data-item="McChicken" data-price="39.00">Tilføj til kurv</button>
       </div>
-            <div class="item">
+      <div class="item">
         <img src="https://s7d1.scene7.com/is/image/mcdonalds/Nuggets_20pcs_832x822px:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="18 Nugs">
         <h3>CHICKEN MCNUGGETS® TEAM BOX - 18 STK</h3>
         <p>73.00 kr.</p>
@@ -119,25 +119,41 @@ document.addEventListener("DOMContentLoaded", function() {
   const addToCartButtons = document.querySelectorAll('.add-to-cart');
   const cartItemsList = document.getElementById('cart-items');
   let total = 0;
+  const cart = {};
 
   addToCartButtons.forEach(button => {
     button.addEventListener('click', function() {
       const item = button.getAttribute('data-item');
       const price = parseFloat(button.getAttribute('data-price'));
       total += price;
-      cartItemsList.innerHTML += `<li>${item} - ${price.toFixed(2)} kr.</li>`;
-      document.getElementById('total').textContent = total.toFixed(2) + ' kr.';
+      if (cart[item]) {
+        cart[item].quantity++;
+      } else {
+        cart[item] = { price, quantity: 1 };
+      }
+      renderCart();
     });
   });
 
+  function renderCart() {
+    cartItemsList.innerHTML = '';
+    for (const item in cart) {
+      const { price, quantity } = cart[item];
+      cartItemsList.innerHTML += `<li>${item} - ${price.toFixed(2)} kr. (${quantity}x)</li>`;
+    }
+    document.getElementById('total').textContent = total.toFixed(2) + ' kr.';
+  }
+
   document.getElementById('submit-order').addEventListener('click', function() {
-    const items = Array.from(document.querySelectorAll('.item')).map(item => {
-      return `${item.querySelector('h3').textContent} - ${item.querySelector('p').textContent}`;
-    }).join('\n');
+    const items = [];
+    for (const item in cart) {
+      const { quantity, price } = cart[item];
+      items.push(`${item} - ${price.toFixed(2)} kr. (${quantity}x)`);
+    }
     
     const totalAmount = total.toFixed(2);
     const payload = {
-      content: `Ny ordre modtaget!\n\nVarer:\n${items}\n\nTotal: ${totalAmount} kr.`
+      content: `Ny ordre modtaget!\n\nVarer:\n${items.join('\n')}\n\nTotal: ${totalAmount} kr.`
     };
 
     // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual webhook URL
