@@ -145,15 +145,14 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   document.getElementById('submit-order').addEventListener('click', function() {
-    const items = [];
-    for (const item in cart) {
+    const items = Object.keys(cart).map(item => {
       const { quantity, price } = cart[item];
-      items.push(`${item} - ${price.toFixed(2)} kr. (${quantity}x)`);
-    }
+      return `${item} - ${price.toFixed(2)} kr. (${quantity}x)`;
+    }).join('\n');
     
-    const totalAmount = total.toFixed(2);
+    const totalAmount = Object.values(cart).reduce((acc, { price, quantity }) => acc + price * quantity, 0).toFixed(2);
     const payload = {
-      content: `Ny ordre modtaget!\n\nVarer:\n${items.join('\n')}\n\nTotal: ${totalAmount} kr.`
+      content: `Ny ordre modtaget!\n\nVarer:\n${items}\n\nTotal: ${totalAmount} kr.`
     };
 
     // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual webhook URL
@@ -173,7 +172,10 @@ document.addEventListener("DOMContentLoaded", function() {
       alert('Bestilt! Total: ' + totalAmount + ' kr.');
       total = 0;
       cartItemsList.innerHTML = '';
-      document.getElementById('total').textContent = total.toFixed(2) + ' kr.';
+      document.getElementById('total').textContent = '0.00 kr.';
+      for (const item in cart) {
+        delete cart[item];
+      }
     })
     .catch(error => {
       console.error('Error sending order to Discord:', error.message);
