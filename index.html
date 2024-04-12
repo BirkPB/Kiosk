@@ -20,40 +20,33 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
   }
 
-  header,
-  .menu,
-  .cart {
-    flex-basis: calc(33.33% - 10px);
-    margin-bottom: 20px;
-  }
-
-  header h1 {
+  header {
     text-align: center;
     color: #f00;
     margin-bottom: 20px;
   }
 
-  .menu h2,
-  .cart h2 {
+  .menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .menu h2 {
     text-align: center;
     color: #f00;
     margin-bottom: 10px;
   }
 
-  .items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
   .item {
-    width: calc(50% - 20px);
-    margin: 10px;
-    padding: 10px;
+    width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    padding: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -65,9 +58,25 @@
     border-radius: 10px;
   }
 
-  .cart p {
-    text-align: right;
-    margin-bottom: 10px;
+  .add-to-cart {
+    display: block;
+    margin: 10px auto;
+    padding: 8px 20px;
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .add-to-cart:hover {
+    background-color: #c00;
+  }
+
+  .cart {
+    text-align: center;
+    margin-top: 20px;
   }
 
   #submit-order {
@@ -79,17 +88,24 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
 
   #submit-order:hover {
     background-color: #c00;
+  }
+
+  @media screen and (max-width: 600px) {
+    .item {
+      width: calc(100% - 20px);
+    }
   }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <h1>Micki Donalds</h1>
+    <h1>Velkommen til vores bestillingssystem</h1>
   </header>
   <div class="menu">
     <h2>Menu</h2>
@@ -98,19 +114,31 @@
         <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds_big-mac:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Bic Mac">
         <h3>Big Mac</h3>
         <p>39.00 kr.</p>
-        <button class="add-to-cart" data-item="Big Mac" data-price="39.00">Tilføj til kurv</button>
+        <button class="add-to-cart">Tilføj til kurv</button>
       </div>
       <div class="item">
         <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds_mcchicken:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Mcchicken">
         <h3>McChicken</h3>
         <p>39.00 kr.</p>
-        <button class="add-to-cart" data-item="McChicken" data-price="39.00">Tilføj til kurv</button>
+        <button class="add-to-cart">Tilføj til kurv</button>
       </div>
       <div class="item">
         <img src="https://s7d1.scene7.com/is/image/mcdonalds/Nuggets_20pcs_832x822px:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="18 Nugs">
         <h3>CHICKEN MCNUGGETS® TEAM BOX - 18 STK</h3>
         <p>73.00 kr.</p>
-        <button class="add-to-cart" data-item="Nuggets" data-price="73.00">Tilføj til kurv</button>
+        <button class="add-to-cart">Tilføj til kurv</button>
+      </div>
+      <div class="item">
+        <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds_pommes-frites-mellem:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Storpom">
+        <h3>STOR POMMES FRITES</h3>
+        <p>33.00 kr.</p>
+        <button class="add-to-cart">Tilføj til kurv</button>
+      </div>
+      <div class="item">
+        <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcd-dk-sharingfries-1:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Sharingpom">
+        <h3>SHARING FRIES</h3>
+        <p>52.00 kr.</p>
+        <button class="add-to-cart">Tilføj til kurv</button>
       </div>
       <!-- Add more items as needed -->
     </div>
@@ -132,10 +160,10 @@ document.addEventListener("DOMContentLoaded", function() {
   let total = 0;
   const cart = {};
 
-  addToCartButtons.forEach(button => {
+  addToCartButtons.forEach((button, index) => {
     button.addEventListener('click', function() {
-      const item = button.getAttribute('data-item');
-      const price = parseFloat(button.getAttribute('data-price'));
+      const item = button.parentElement.querySelector('h3').textContent;
+      const price = parseFloat(button.parentElement.querySelector('p').textContent);
       total += price;
       if (cart[item]) {
         cart[item].quantity++;
