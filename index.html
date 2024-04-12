@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiosk Ordering System</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1, h2, h3 {
+  text-align: center;
+}
+
+.menu {
+  float: left;
+  width: 50%;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  width: 45%;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.item img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.cart {
+  float: right;
+  width: 50%;
+}
+
+.cart p {
+  text-align: right;
+}
+
+#submit-order {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#submit-order:hover {
+  background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Welcome to our Kiosk Ordering System</h1>
+  <div class="menu">
+    <h2>Menu</h2>
+    <div class="items">
+      <div class="item">
+        <img src="item1.jpg" alt="Item 1">
+        <h3>Item 1</h3>
+        <p>$5.99</p>
+        <button class="add-to-cart" data-item="Item 1" data-price="5.99">Add to Cart</button>
+      </div>
+      <div class="item">
+        <img src="item2.jpg" alt="Item 2">
+        <h3>Item 2</h3>
+        <p>$7.99</p>
+        <button class="add-to-cart" data-item="Item 2" data-price="7.99">Add to Cart</button>
+      </div>
+      <!-- Add more items as needed -->
+    </div>
+  </div>
+  <div class="cart">
+    <h2>Cart</h2>
+    <ul id="cart-items">
+      <!-- Cart items will be displayed here -->
+    </ul>
+    <p>Total: $<span id="total">0.00</span></p>
+    <button id="submit-order">Submit Order</button>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  const cartItemsList = document.getElementById('cart-items');
+  let total = 0;
+
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const item = button.getAttribute('data-item');
+      const price = parseFloat(button.getAttribute('data-price'));
+      total += price;
+      cartItemsList.innerHTML += `<li>${item} - $${price.toFixed(2)}</li>`;
+      document.getElementById('total').textContent = total.toFixed(2);
+    });
+  });
+
+  document.getElementById('submit-order').addEventListener('click', function() {
+    const items = Array.from(document.querySelectorAll('.item')).map(item => {
+      return `${item.querySelector('h3').textContent} - ${item.querySelector('p').textContent}`;
+    }).join('\n');
+    
+    const totalAmount = total.toFixed(2);
+    const payload = {
+      content: `New order received!\n\nItems:\n${items}\n\nTotal: $${totalAmount}`
+    };
+
+    // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual webhook URL
+    const webhookUrl = 'https://discord.com/api/webhooks/1228380892616065036/KAP9a2oKZtW8I08-PEJnvAtfkaDFa1suJtZQoUtHtBEAg-KtIUT9VSbfj-C7QURDS5zj';
+
+    fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to send order to Discord');
+      }
+      alert('Order Submitted! Total Amount: $' + totalAmount);
+      total = 0;
+      cartItemsList.innerHTML = '';
+      document.getElementById('total').textContent = total.toFixed(2);
+    })
+    .catch(error => {
+      console.error('Error sending order to Discord:', error.message);
+      alert('Failed to submit order. Please try again later.');
+    });
+  });
+});
+</script>
+</body>
+</html>
