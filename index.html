@@ -1,12 +1,13 @@
+User
 <!DOCTYPE html>
 <html lang="da">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mcdonalds Order Submission</title>
+<title>Mcdonalds</title>
 <style>
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial Black', sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f7f7f7;
@@ -21,90 +22,168 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1, h2 {
+h1, h2, h3 {
   text-align: center;
   color: #f00; /* Your brand color */
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+.menu {
+  float: left;
+  width: 50%;
 }
 
-li {
-  margin-bottom: 20px;
+.items {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-img {
-  width: 100px;
-  margin-right: 20px;
-  border-radius: 5px;
+.item {
+  width: 45%;
+  margin: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-button {
+.item img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.cart {
+  float: right;
+  width: 50%;
+}
+
+.cart p {
+  text-align: right;
+}
+
+#submit-order {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
   background-color: #f00; /* Your brand color */
   color: #fff;
   border: none;
-  padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
 }
 
-button:hover {
+#submit-order:hover {
   background-color: #c00; /* Darker shade for hover */
 }
 </style>
 </head>
 <body>
-<h1>Order Submission</h1>
 <div class="container">
-  <h2>Menu</h2>
-  <ul id="menu">
-    <!-- Menu items will be dynamically populated here -->
-    <li>
-      <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds_big-mac:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Big Mac">
-      <div>
-        <span>Big Mac</span> - <span>39.00 kr.</span>
-        <button class="add-to-cart" data-name="Big Mac" data-price="39.00">Add to Cart</button>
+  <h1>Velkommen til vores bestillingssystem</h1>
+  <div class="menu">
+    <h2>Menu</h2>
+    <div class="items">
+      <div class="item">
+        <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds_big-mac:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Bic Mac">
+        <h3>Big Mac</h3>
+        <p>39.00 kr.</p>
+        <button class="add-to-cart" data-item="Big Mac" data-price="39.00">Tilføj til kurv</button>
       </div>
-    </li>
-    <li>
-      <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds_mcchicken:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="McChicken">
-      <div>
-        <span>McChicken</span> - <span>39.00 kr.</span>
-        <button class="add-to-cart" data-name="McChicken" data-price="39.00">Add to Cart</button>
+      <div class="item">
+        <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds_mcchicken:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Mcchicken">
+        <h3>McChicken</h3>
+        <p>39.00 kr.</p>
+        <button class="add-to-cart" data-item="McChicken" data-price="39.00">Tilføj til kurv</button>
       </div>
-    </li>
-    <li>
-      <img src="https://s7d1.scene7.com/is/image/mcdonalds/Nuggets_20pcs_832x822px:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Chicken McNuggets Team Box - 18 STK">
-      <div>
-        <span>Chicken McNuggets Team Box - 18 STK</span> - <span>73.00 kr.</span>
-        <button class="add-to-cart" data-name="Chicken McNuggets Team Box - 18 STK" data-price="73.00">Add to Cart</button>
+            <div class="item">
+        <img src="https://s7d1.scene7.com/is/image/mcdonalds/Nuggets_20pcs_832x822px:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="18 Nugs">
+        <h3>CHICKEN MCNUGGETS® TEAM BOX - 18 STK</h3>
+        <p>73.00 kr.</p>
+        <button class="add-to-cart" data-item="Nuggets" data-price="73.00">Tilføj til kurv</button>
       </div>
-    </li>
-    <!-- Add more menu items here if needed -->
-  </ul>
+      <!-- Add more items as needed -->
+    </div>
+  </div>
+  <div class="cart">
+    <h2>Din ordre</h2>
+    <ul id="cart-items">
+      <!-- Cart items will be displayed here -->
+    </ul>
+    <p>Total: <span id="total">0.00 kr.</span></p>
+    <button id="submit-order">Afgiv ordre</button>
+  </div>
 </div>
-<div class="container">
-  <h2>Your Cart</h2>
-  <ul id="cart">
-    <!-- Cart items will be dynamically populated here -->
-  </ul>
-  <p>Total: <span id="total">0.00 kr.</span></p>
-  <button id="submit-order">Submit Order</button>
-</div>
-<div class="container">
-  <h2>All Orders</h2>
-  <ul id="orders">
-    <!-- All orders will be dynamically populated here -->
-  </ul>
-</div>
-<script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js"></script>
-<script src="firebase-config.js"></script>
-<script src="order-submission.js"></script>
-<script src="display-orders.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  const cartItemsList = document.getElementById('cart-items');
+  let total = 0;
+  const cart = {};
+
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const item = button.getAttribute('data-item');
+      const price = parseFloat(button.getAttribute('data-price'));
+      total += price;
+      if (cart[item]) {
+        cart[item].quantity++;
+      } else {
+        cart[item] = { price, quantity: 1 };
+      }
+      renderCart();
+    });
+  });
+
+  function renderCart() {
+    cartItemsList.innerHTML = '';
+    for (const item in cart) {
+      const { price, quantity } = cart[item];
+      cartItemsList.innerHTML += `<li>${item} - ${price.toFixed(2)} kr. (${quantity}x)</li>`;
+    }
+    document.getElementById('total').textContent = total.toFixed(2) + ' kr.';
+  }
+
+  document.getElementById('submit-order').addEventListener('click', function() {
+    const items = Object.keys(cart).map(item => {
+      const { quantity, price } = cart[item];
+      return `${item} - ${price.toFixed(2)} kr. (${quantity}x)`;
+    }).join('\n');
+    
+    const totalAmount = Object.values(cart).reduce((acc, { price, quantity }) => acc + price * quantity, 0).toFixed(2);
+    const payload = {
+      content: `Ny ordre modtaget!\n\nVarer:\n${items}\n\nTotal: ${totalAmount} kr.`
+    };
+
+    // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual webhook URL
+    const webhookUrl = 'https://discord.com/api/webhooks/1228380892616065036/KAP9a2oKZtW8I08-PEJnvAtfkaDFa1suJtZQoUtHtBEAg-KtIUT9VSbfj-C7QURDS5zj';
+
+    fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to send order to Discord');
+      }
+      alert('Bestilt! Total: ' + totalAmount + ' kr.');
+      total = 0;
+      cartItemsList.innerHTML = '';
+      document.getElementById('total').textContent = '0.00 kr.';
+      for (const item in cart) {
+        delete cart[item];
+      }
+    })
+    .catch(error => {
+      console.error('Error sending order to Discord:', error.message);
+      alert('Kunne ikke sende ordren. Prøv igen senere.');
+    });
+  });
+});
+</script>
 </body>
 </html>
