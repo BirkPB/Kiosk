@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kiosk Ordering System</title>
+<title>Mcdonalds</title>
 <style>
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial Black', sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f7f7f7;
 }
 
 .container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h1, h2, h3 {
   text-align: center;
+  color: #f00; /* Your brand color */
 }
 
 .menu {
@@ -29,20 +34,22 @@ h1, h2, h3 {
 .items {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .item {
   width: 45%;
   margin: 10px;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 .item img {
   width: 100%;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .cart {
@@ -58,7 +65,7 @@ h1, h2, h3 {
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #f00; /* Your brand color */
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -66,38 +73,44 @@ h1, h2, h3 {
 }
 
 #submit-order:hover {
-  background-color: #0056b3;
+  background-color: #c00; /* Darker shade for hover */
 }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>Welcome to our Kiosk Ordering System</h1>
+  <h1>Velkommen til vores bestillingssystem</h1>
   <div class="menu">
     <h2>Menu</h2>
     <div class="items">
       <div class="item">
-        <img src="item1.jpg" alt="Item 1">
-        <h3>Item 1</h3>
-        <p>$5.99</p>
-        <button class="add-to-cart" data-item="Item 1" data-price="5.99">Add to Cart</button>
+        <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds_big-mac:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Bic Mac">
+        <h3>Big Mac</h3>
+        <p>39.00 kr.</p>
+        <button class="add-to-cart" data-item="Big Mac" data-price="39.00">Tilføj til kurv</button>
       </div>
       <div class="item">
-        <img src="item2.jpg" alt="Item 2">
-        <h3>Item 2</h3>
-        <p>$7.99</p>
-        <button class="add-to-cart" data-item="Item 2" data-price="7.99">Add to Cart</button>
+        <img src="https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds_mcchicken:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="Mcchicken">
+        <h3>McChicken</h3>
+        <p>39.00 kr.</p>
+        <button class="add-to-cart" data-item="McChicken" data-price="39.00">Tilføj til kurv</button>
+      </div>
+            <div class="item">
+        <img src="https://s7d1.scene7.com/is/image/mcdonalds/Nuggets_20pcs_832x822px:1-3-product-tile-desktop?wid=829&hei=515&dpr=off" alt="18 Nugs">
+        <h3>CHICKEN MCNUGGETS® TEAM BOX - 18 STK</h3>
+        <p>73.00 kr.</p>
+        <button class="add-to-cart" data-item="Nuggets" data-price="73.00">Tilføj til kurv</button>
       </div>
       <!-- Add more items as needed -->
     </div>
   </div>
   <div class="cart">
-    <h2>Cart</h2>
+    <h2>Din ordre</h2>
     <ul id="cart-items">
       <!-- Cart items will be displayed here -->
     </ul>
-    <p>Total: $<span id="total">0.00</span></p>
-    <button id="submit-order">Submit Order</button>
+    <p>Total: <span id="total">0.00 kr.</span></p>
+    <button id="submit-order">Afgiv ordre</button>
   </div>
 </div>
 
@@ -112,8 +125,8 @@ document.addEventListener("DOMContentLoaded", function() {
       const item = button.getAttribute('data-item');
       const price = parseFloat(button.getAttribute('data-price'));
       total += price;
-      cartItemsList.innerHTML += `<li>${item} - $${price.toFixed(2)}</li>`;
-      document.getElementById('total').textContent = total.toFixed(2);
+      cartItemsList.innerHTML += `<li>${item} - ${price.toFixed(2)} kr.</li>`;
+      document.getElementById('total').textContent = total.toFixed(2) + ' kr.';
     });
   });
 
@@ -124,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     const totalAmount = total.toFixed(2);
     const payload = {
-      content: `New order received!\n\nItems:\n${items}\n\nTotal: $${totalAmount}`
+      content: `Ny ordre modtaget!\n\nVarer:\n${items}\n\nTotal: ${totalAmount} kr.`
     };
 
     // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual webhook URL
@@ -141,14 +154,14 @@ document.addEventListener("DOMContentLoaded", function() {
       if (!response.ok) {
         throw new Error('Failed to send order to Discord');
       }
-      alert('Order Submitted! Total Amount: $' + totalAmount);
+      alert('Bestilt! Total: ' + totalAmount + ' kr.');
       total = 0;
       cartItemsList.innerHTML = '';
-      document.getElementById('total').textContent = total.toFixed(2);
+      document.getElementById('total').textContent = total.toFixed(2) + ' kr.';
     })
     .catch(error => {
       console.error('Error sending order to Discord:', error.message);
-      alert('Failed to submit order. Please try again later.');
+      alert('Kunne ikke sende ordren. Prøv igen senere.');
     });
   });
 });
