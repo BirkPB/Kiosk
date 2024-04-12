@@ -1,0 +1,26 @@
+const ordersList = document.getElementById('orders');
+
+// Retrieve orders from Firebase
+database.ref('orders').on('value', function(snapshot) {
+  ordersList.innerHTML = '';
+  snapshot.forEach(function(childSnapshot) {
+    const orderKey = childSnapshot.key;
+    const order = childSnapshot.val();
+    const orderItems = order.items.replace(/\n/g, '<br>'); // Replace newline characters with <br> for HTML formatting
+    ordersList.innerHTML += `<li><strong>Total:</strong> ${order.totalAmount} kr.<br><strong>Items:</strong><br>${orderItems}<br><button class="delete-order" data-order-key="${orderKey}">Delete</button></li>`;
+  });
+});
+
+// Handle click event for delete button
+ordersList.addEventListener('click', function(event) {
+  if (event.target.classList.contains('delete-order')) {
+    const orderKey = event.target.getAttribute('data-order-key');
+    database.ref('orders').child(orderKey).remove()
+      .then(function() {
+        console.log("Order successfully deleted!");
+      })
+      .catch(function(error) {
+        console.error("Error removing order: ", error);
+      });
+  }
+});
